@@ -1,8 +1,12 @@
 /* eslint-disable react/prop-types */
 import sendIcon from '../../assets/send-icon.svg'
 import hamburgerIcon from '../../assets/hamburger-icon.svg'
+import { useState } from 'react'
 
-const ChatInterface = ({ setRefresh, user, chats, chatSelected }) => {
+const ChatInterface = ({ refresh, setRefresh, chats, chatSelected }) => {
+    const [input, setInput] = useState('')
+
+    const id = localStorage.getItem('id')
 
     const handleNewChat = async () => {
         if (chats.length > 0) {
@@ -10,12 +14,57 @@ const ChatInterface = ({ setRefresh, user, chats, chatSelected }) => {
                 return
             }
         }
-        console.log("NEW USER")
-        //const id = localStorage.getItem('id')
+
+        await fetch(`http://localhost:3000/chats`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: "New Chat",
+                user_id: id
+            })
+        })
+        setRefresh(!refresh)
+    }
+
+    const handleChangeInput = (e) => {
+        setInput(e.target.value)
+    }
+
+    const handleEnter = (e) => {
+        if (e.key === 'Enter') {
+            handleSubmit()
+        }
+    }
+
+    const handleSubmit = () => {
+        if (input === '') {
+            return
+        }
+        changeTitle()
+        setInput('')
+    }
+
+    const changeTitle = async () => {
+        if (chatSelected === 0) {
+            return
+        } else if (chats.find(chat => chat.id === chatSelected).title === "New Chat") {
+            await fetch(`http://localhost:3000/chats/${chatSelected}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: input
+                })
+            })
+            setRefresh(!refresh)
+            console.log('IS NEW CHAT')
+        }
     }
 
     const prueba = () => {
-        console.log(chats)
         console.log(chatSelected)
     }
 
@@ -29,8 +78,8 @@ const ChatInterface = ({ setRefresh, user, chats, chatSelected }) => {
                 </button>
 
                 {/* Chat Title */}
-                <h1 className="text-3xl font-bold">
-                    {chatSelected === 0 ? 'Bienvenido' : chats.find(chat => chat.id === chatSelected).title}
+                <h1 className="text-3xl font-bold w-[80%] h-10 text-center overflow-hidden">
+                    {chatSelected === 0 || chats.length === 0  ? 'Bienvenido' : chats.find(chat => chat.id === chatSelected) ? chats.find(chat => chat.id === chatSelected).title : 'Bienvenido'}
                 </h1>
 
                 {/* New Chat */}
@@ -46,10 +95,10 @@ const ChatInterface = ({ setRefresh, user, chats, chatSelected }) => {
                 {/* Input Chat Container */}
             <div className="h-[10%] w-full flex justify-between items-center">
                 {/* Input Chat */}
-                <input type="text" className="border-2 h-14 w-[95%] rounded-3xl px-5 outline-none" placeholder="Escribe si ya sabes que preguntar..."/>
+                <input onChange={handleChangeInput} onKeyDown={handleEnter} value={input} type="text" className="border-2 h-14 w-[95%] rounded-3xl px-5 outline-none" placeholder="Escribe si ya sabes que preguntar..."/>
 
                 {/* Send Button */}
-                <button className="rounded-full h-14 w-14 flex justify-center items-center border-2">
+                <button onClick={handleSubmit} className="rounded-full h-14 w-14 flex justify-center items-center border-2">
                     <img src={sendIcon} alt="Send Icon" width={"50%"} className='ml-1'/>
                 </button>
             </div>
