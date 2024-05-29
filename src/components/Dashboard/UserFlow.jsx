@@ -21,7 +21,7 @@ let UserFlow = [
                 "option": "Entretenimiento",
             },
             {
-                "option": "Otro",
+                "option": "Desarrollo Profesional",
             }
         ]
     },

@@ -90,23 +90,25 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setM
 
             {/* Chats */}
             <div className="h-[75%] scroll-p overflow-y-auto">
-                {chats.map((chat, index) => {
-                    return (
-                        <div key={index} onClick={() => {handleChatSelected(chat.id)}} className="h-[5%] rounded-full border-[1px] border-transparent flex items-center hover:bg-gradient-to-br hover:from-[#2b3d6665] hover:to-[#020a1b69] hover:border-[#27dfff54] hover:cursor-pointer">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center justify-between mx-4 w-[90%] h-8 relative overflow-hidden">
-                                    <img src={ChatIcon} alt="Chat Icon" className="w-[13%]"/>
-                                    <p className="ml-2 absolute top-[3px] right-0 w-[83%]">
-                                        {chat.title}
-                                    </p>
-                                </div>
-                                <div onClick={() => {handleDeleteChat(chat.id)}} className="flex items-center mr-3 w-[10%]">
-                                    <img src={TrashIcon} alt="Trash Icon"/>
+                <div className="flex flex-wrap-reverse">
+                    {chats.map((chat, index) => {
+                        return (
+                            <div key={index} onClick={() => {handleChatSelected(chat.id)}} className="h-8 rounded-full border-[1px] border-transparent flex items-center hover:bg-gradient-to-br hover:from-[#2b3d6665] hover:to-[#020a1b69] hover:border-[#27dfff54] hover:cursor-pointer">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between mx-4 w-[90%] h-8 relative overflow-hidden">
+                                        <img src={ChatIcon} alt="Chat Icon" className="w-[13%]"/>
+                                        <p className="ml-2 absolute top-[3px] right-0 w-[83%]">
+                                            {chat.title}
+                                        </p>
+                                    </div>
+                                    <div onClick={() => {handleDeleteChat(chat.id)}} className="flex items-center mr-3 w-[10%]">
+                                        <img src={TrashIcon} alt="Trash Icon"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                })}
+                        )
+                    })}
+                </div>
             </div>
 
             {/* Profile */}

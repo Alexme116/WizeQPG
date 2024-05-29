@@ -3,9 +3,11 @@ import sendIcon from '../../assets/send-icon.svg'
 import hamburgerIcon from '../../assets/hamburger-icon.svg'
 import { useState } from 'react'
 import ChatDisplay from './ChatDisplay'
+import getApiAIResponse from '../ApiAI/ApiAI'
 
 const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) => {
     const [input, setInput] = useState('')
+    const [flowQuestion, setFlowQuestion] = useState([])
 
     const id = localStorage.getItem('id')
 
@@ -45,6 +47,7 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) =
         }
         changeTitle()
         setInput('')
+        setFlowQuestion([])
     }
 
     const changeTitle = async () => {
@@ -64,8 +67,12 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) =
         }
     }
 
-    const prueba = () => {
-        console.log(chats)
+    const prueba = async () => {
+        // const question = 'Dime en maximo dos palabra y separadas por comas sin espacios 5 subtemas más importantes de "Tecnología y Gadgets"'
+        // const response = await getApiAIResponse(question)
+        // console.log(response)
+
+        console.log(flowQuestion)
     }
 
     return (
@@ -90,7 +97,7 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) =
 
             {/* Chat Interface */}
             <div className="h-[80%] w-full bg-[#F9FAFC] rounded-xl border-[1px]">
-                <ChatDisplay messages={messages} chatSelected={chatSelected} />
+                <ChatDisplay messages={messages} chatSelected={chatSelected} flowQuestion={flowQuestion} setFlowQuestion={setFlowQuestion} />
             </div>
 
                 {/* Input Chat Container */}
