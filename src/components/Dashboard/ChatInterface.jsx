@@ -5,7 +5,7 @@ import { useState } from 'react'
 import ChatDisplay from './ChatDisplay'
 import getApiAIResponse from '../ApiAI/ApiAI'
 
-const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) => {
+const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, setMessages }) => {
     const [input, setInput] = useState('')
     const [flowQuestion, setFlowQuestion] = useState([])
 
@@ -41,13 +41,14 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) =
         }
     }
 
-    const handleSubmit = () => {
-        if (input === '') {
+    const handleSubmit = async () => {
+        if (input === '' || chatSelected === 0) {
             return
         }
         changeTitle()
         setInput('')
         setFlowQuestion([])
+        sendMessageFromUser(input)
     }
 
     const changeTitle = async () => {
@@ -65,6 +66,33 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) =
             })
             setRefresh(!refresh)
         }
+    }
+
+    const sendMessageFromUser = async (message) => {
+        sendMessage(message, 'User')
+    }
+
+    const sendMessage = async (message, is_from) => {
+        await fetch(`http://localhost:3000/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                is_from: is_from,
+                message: message,
+                chat_id: chatSelected
+            })
+        })
+        const messages = await getMessages(chatSelected)
+        setMessages(messages)
+        setRefresh(!refresh)
+    }
+
+    const getMessages = async (id) => {
+        const response = await fetch(`http://localhost:3000/messages/${id}`)
+        const data = await response.json()
+        return data
     }
 
     const prueba = async () => {

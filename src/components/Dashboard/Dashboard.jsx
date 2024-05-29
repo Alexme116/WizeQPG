@@ -55,7 +55,7 @@ const Dashboard = () => {
             <PreviousChats refresh={refresh} setRefresh={setRefresh} user={user} chats={chats} setChatSelected={setChatSelected} setMessages={setMessages}/>
 
             {/* Chat Interface */}
-            <ChatInterface refresh={refresh} setRefresh={setRefresh} chats={chats} chatSelected={chatSelected} messages={messages} />
+            <ChatInterface refresh={refresh} setRefresh={setRefresh} chats={chats} chatSelected={chatSelected} messages={messages} setMessages={setMessages} />
         </div>
         </>
     )

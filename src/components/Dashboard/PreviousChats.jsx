@@ -90,7 +90,7 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setM
 
             {/* Chats */}
             <div className="h-[75%] scroll-p overflow-y-auto">
-                <div className="flex flex-wrap-reverse">
+                <div className="flex flex-wrap">
                     {chats.map((chat, index) => {
                         return (
                             <div key={index} onClick={() => {handleChatSelected(chat.id)}} className="h-8 rounded-full border-[1px] border-transparent flex items-center hover:bg-gradient-to-br hover:from-[#2b3d6665] hover:to-[#020a1b69] hover:border-[#27dfff54] hover:cursor-pointer">
