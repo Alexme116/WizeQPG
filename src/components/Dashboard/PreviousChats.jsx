@@ -5,6 +5,7 @@ import ChatIcon from "../../assets/chat-icon.svg"
 import TrashIcon from "../../assets/trash-icon.svg"
 
 const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setMessages }) => {
+
     const handleProfileOptions = () => {
         const profileOptions = document.getElementById('profile_Options')
         const profileNameContainer = document.getElementById('profile_Name_Container')
@@ -46,9 +47,10 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setM
         setRefresh(!refresh)
     }
 
-    const handleDeleteChat = (id) => {
-        deleteMessages(id)
-        deleteChat(id)
+    const handleDeleteChat = async (id) => {
+        await deleteMessages(id)
+        await deleteChat(id)
+        setChatSelected(0)
         setRefresh(!refresh)
     }
 

@@ -48,7 +48,8 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
         changeTitle()
         setInput('')
         setFlowQuestion([])
-        sendMessageFromUser(input)
+        await sendMessageFromUser(input)
+        await sendMessageFromAI(input)
     }
 
     const changeTitle = async () => {
@@ -70,6 +71,11 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
 
     const sendMessageFromUser = async (message) => {
         sendMessage(message, 'User')
+    }
+
+    const sendMessageFromAI = async (message) => {
+        const response = await getApiAIResponse(message)
+        sendMessage(response, 'AI')
     }
 
     const sendMessage = async (message, is_from) => {
