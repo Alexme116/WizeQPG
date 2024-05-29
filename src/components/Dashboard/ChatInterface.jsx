@@ -2,8 +2,9 @@
 import sendIcon from '../../assets/send-icon.svg'
 import hamburgerIcon from '../../assets/hamburger-icon.svg'
 import { useState } from 'react'
+import ChatDisplay from './ChatDisplay'
 
-const ChatInterface = ({ refresh, setRefresh, chats, chatSelected }) => {
+const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages }) => {
     const [input, setInput] = useState('')
 
     const id = localStorage.getItem('id')
@@ -60,12 +61,11 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected }) => {
                 })
             })
             setRefresh(!refresh)
-            console.log('IS NEW CHAT')
         }
     }
 
     const prueba = () => {
-        console.log(chatSelected)
+        console.log(chats)
     }
 
     return (
@@ -90,6 +90,7 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected }) => {
 
             {/* Chat Interface */}
             <div className="h-[80%] w-full bg-[#F9FAFC] rounded-xl border-[1px]">
+                <ChatDisplay messages={messages} chatSelected={chatSelected} />
             </div>
 
                 {/* Input Chat Container */}

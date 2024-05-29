@@ -4,7 +4,7 @@ import LogoutIcon from "../../assets/logout-icon.svg"
 import ChatIcon from "../../assets/chat-icon.svg"
 import TrashIcon from "../../assets/trash-icon.svg"
 
-const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected }) => {
+const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setMessages }) => {
     const handleProfileOptions = () => {
         const profileOptions = document.getElementById('profile_Options')
         const profileNameContainer = document.getElementById('profile_Name_Container')
@@ -39,8 +39,10 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected }) =>
         navigate('/')
     }
 
-    const handleChatSelected = (id) => {
+    const handleChatSelected = async (id) => {
+        const messages = await getMessages(id)
         setChatSelected(id)
+        setMessages(messages)
         setRefresh(!refresh)
     }
 
@@ -60,6 +62,12 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected }) =>
         await fetch(`http://localhost:3000/chats/${id}`, {
             method: 'DELETE'
         })
+    }
+
+    const getMessages = async (id) => {
+        const response = await fetch(`http://localhost:3000/messages/${id}`)
+        const data = await response.json()
+        return data
     }
 
     return (

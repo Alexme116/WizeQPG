@@ -16,6 +16,7 @@ const Dashboard = () => {
     ])
     const [chats, setChats] = useState([])
     const [chatSelected, setChatSelected] = useState(0)
+    const [messages, setMessages] = useState([])
 
     const id = localStorage.getItem('id')
     const navigate = useNavigate()
@@ -51,10 +52,10 @@ const Dashboard = () => {
         {/* Main Container */}
         <div className='flex h-svh w-svw items-center bg-gradient-radial from-[#112a2d] via-[#112a2d] to-[#111A2D]'>
             {/* Previous Chats */}
-            <PreviousChats refresh={refresh} setRefresh={setRefresh} user={user} chats={chats} setChatSelected={setChatSelected}/>
+            <PreviousChats refresh={refresh} setRefresh={setRefresh} user={user} chats={chats} setChatSelected={setChatSelected} setMessages={setMessages}/>
 
             {/* Chat Interface */}
-            <ChatInterface refresh={refresh} setRefresh={setRefresh} chats={chats} chatSelected={chatSelected}/>
+            <ChatInterface refresh={refresh} setRefresh={setRefresh} chats={chats} chatSelected={chatSelected} messages={messages} />
         </div>
         </>
     )
