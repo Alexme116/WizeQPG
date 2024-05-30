@@ -8,6 +8,7 @@ import getApiAIResponse from '../ApiAI/ApiAI'
 const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, setMessages }) => {
     const [input, setInput] = useState('')
     const [flowQuestion, setFlowQuestion] = useState([])
+    const [flowStep, setFlowStep] = useState(0)
 
     const id = localStorage.getItem('id')
 
@@ -74,7 +75,8 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
     }
 
     const sendMessageFromAI = async (message) => {
-        const response = await getApiAIResponse(message)
+        const newMessage = `Sin ningun tipo de formato solamente texto, responde a la siguiente pregunta: ${message}`
+        const response = await getApiAIResponse(newMessage)
         sendMessage(response, 'AI')
     }
 
@@ -102,10 +104,6 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
     }
 
     const prueba = async () => {
-        // const question = 'Dime en maximo dos palabra y separadas por comas sin espacios 5 subtemas más importantes de "Tecnología y Gadgets"'
-        // const response = await getApiAIResponse(question)
-        // console.log(response)
-
         console.log(flowQuestion)
     }
 
@@ -131,11 +129,13 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
 
             {/* Chat Interface */}
             <div className="h-[80%] w-full bg-[#F9FAFC] rounded-xl border-[1px]">
-                <ChatDisplay messages={messages} chatSelected={chatSelected} flowQuestion={flowQuestion} setFlowQuestion={setFlowQuestion} />
+                <ChatDisplay messages={messages} chatSelected={chatSelected} flowQuestion={flowQuestion} setFlowQuestion={setFlowQuestion} flowStep={flowStep} setFlowStep={setFlowStep}
+                    sendMessageFromUser={sendMessageFromUser} sendMessageFromAI={sendMessageFromAI} refresh={refresh} setRefresh={setRefresh}
+                />
             </div>
 
-                {/* Input Chat Container */}
-            <div className="h-[10%] w-full flex justify-between items-center">
+            {/* Input Chat Container */}
+            <div className={chatSelected === 0 ? "hidden" : "h-[10%] w-full flex justify-between items-center"}>
                 {/* Input Chat */}
                 <input onChange={handleChangeInput} onKeyDown={handleEnter} value={input} type="text" className="border-2 h-14 w-[95%] rounded-3xl px-5 outline-none" placeholder="Escribe si ya sabes que preguntar..."/>
 

@@ -1,6 +1,6 @@
 
 
-let UserFlow = [
+const UserFlow = [
     {
         "step": 0,
         "description": "Selecciona un tema:",
@@ -47,6 +47,39 @@ let UserFlow = [
             {
                 "option": "Otro",
             }
+        ]
+    },
+    {
+        "step": 2,
+        "description": "¿Que es lo que necesitas?",
+        "options": [
+            {
+                "option": "Ejemplo Específico",
+            },
+            {
+                "option": "Resumen General",
+            },
+            {
+                "option": "Explicación Detallada",
+            },
+            {
+                "option": "Fuentes de Información",
+            },
+            {
+                "option": "Comparación Entre Opciones",
+            },
+            {
+                "option": "Consejos y Recomendaciones",
+            }
+        ]
+    },
+    {
+        "step": 3,
+        "description": "Agrega más detalles:",
+        "options": [
+            {
+                "option": "Ejemplo Específico",
+            },
         ]
     },
 ]
