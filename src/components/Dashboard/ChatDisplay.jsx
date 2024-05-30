@@ -97,7 +97,6 @@ const ChatDisplay = ({ refresh, setRefresh, messages, chatSelected, flowQuestion
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        console.log("MESSAGES END")
     }, [messages]);    
 
     return (

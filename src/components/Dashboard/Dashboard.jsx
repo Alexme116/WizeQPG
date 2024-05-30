@@ -17,6 +17,7 @@ const Dashboard = () => {
     const [chats, setChats] = useState([])
     const [chatSelected, setChatSelected] = useState(0)
     const [messages, setMessages] = useState([])
+    const [isCharging, setIsCharging] = useState(false)
 
     const id = localStorage.getItem('id')
     const navigate = useNavigate()
@@ -55,7 +56,16 @@ const Dashboard = () => {
             <PreviousChats refresh={refresh} setRefresh={setRefresh} user={user} chats={chats} setChatSelected={setChatSelected} setMessages={setMessages}/>
 
             {/* Chat Interface */}
-            <ChatInterface refresh={refresh} setRefresh={setRefresh} chats={chats} chatSelected={chatSelected} messages={messages} setMessages={setMessages} />
+            <ChatInterface refresh={refresh} setRefresh={setRefresh} chats={chats} chatSelected={chatSelected} messages={messages} setMessages={setMessages} setIsCharging={setIsCharging} />
+
+            {/* Charging Spinner */}
+            {isCharging ?
+                <div className='absolute bg-black h-16 w-16 top-1/2 left-1/2 translate-x-20 -translate-y-1/2'>
+
+                </div>
+                :
+                null
+            }
         </div>
         </>
     )

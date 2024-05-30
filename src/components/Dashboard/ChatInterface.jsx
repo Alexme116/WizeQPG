@@ -5,7 +5,7 @@ import { useState } from 'react'
 import ChatDisplay from './ChatDisplay'
 import getApiAIResponse from '../ApiAI/ApiAI'
 
-const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, setMessages }) => {
+const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, setMessages, setIsCharging }) => {
     const [input, setInput] = useState('')
     const [flowQuestion, setFlowQuestion] = useState([])
     const [flowStep, setFlowStep] = useState(0)
@@ -72,11 +72,13 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
 
     const sendMessageFromUser = async (message) => {
         sendMessage(message, 'User')
+        setIsCharging(true)
     }
 
     const sendMessageFromAI = async (message) => {
         const newMessage = `Sin ningun tipo de formato solamente texto, responde a la siguiente pregunta: ${message}`
         const response = await getApiAIResponse(newMessage)
+        setIsCharging(false)
         sendMessage(response, 'AI')
     }
 
