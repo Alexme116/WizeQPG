@@ -132,7 +132,7 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
             {/* Chat Interface */}
             <div className="h-[80%] w-full bg-[#F9FAFC] rounded-xl border-[1px]">
                 <ChatDisplay messages={messages} chatSelected={chatSelected} flowQuestion={flowQuestion} setFlowQuestion={setFlowQuestion} flowStep={flowStep} setFlowStep={setFlowStep}
-                    sendMessageFromUser={sendMessageFromUser} sendMessageFromAI={sendMessageFromAI} refresh={refresh} setRefresh={setRefresh}
+                    sendMessageFromUser={sendMessageFromUser} sendMessageFromAI={sendMessageFromAI} refresh={refresh} setRefresh={setRefresh} setIsCharging={setIsCharging}
                 />
             </div>
 

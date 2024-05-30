@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import UserFlow from "./UserFlow"
 import getApiAIResponse from '../ApiAI/ApiAI'
 
-const ChatDisplay = ({ refresh, setRefresh, messages, chatSelected, flowQuestion, setFlowQuestion, flowStep, setFlowStep, sendMessageFromUser, sendMessageFromAI }) => {
+const ChatDisplay = ({ refresh, setRefresh, messages, chatSelected, flowQuestion, setFlowQuestion, flowStep, setFlowStep, sendMessageFromUser, sendMessageFromAI, setIsCharging }) => {
     const messagesEndRef = useRef(null);
 
     const handleFlowSelection = async (e) => {
@@ -27,7 +27,9 @@ const ChatDisplay = ({ refresh, setRefresh, messages, chatSelected, flowQuestion
         const step = flowStep + 1
         const flow = UserFlow.find(userFlow => userFlow.step === step)
         if (step === 1) {
+            setIsCharging(true)
             const qresp = await prepareQuestion(question, step)
+            setIsCharging(false)
             const newOptions = [
                 {
                     "option": qresp[0],
@@ -148,7 +150,8 @@ const ChatDisplay = ({ refresh, setRefresh, messages, chatSelected, flowQuestion
                                 <div className={flowStep == 3 ? 'm-1 mb-2' : 'grid grid-cols-3 gap-1 m-1'}>
                                     {UserFlow[flowStep].options.map((option, index) => {
                                         return (
-                                            <button key={index} className="w-full p-2 text-center bg-neutral-300 rounded" onClick={handleFlowSelection}>
+                                            <button key={index} className={flowStep == 3 ? "w-full p-2 text-center bg-neutral-300 rounded hover:cursor-default" : "w-full p-2 text-center bg-neutral-300 rounded"}
+                                            onClick={flowStep == 3 ? null : handleFlowSelection}>
                                                 {option.option}
                                             </button>
                                         )

@@ -3,6 +3,7 @@ import PreviousChats from './PreviousChats'
 import ChatInterface from './ChatInterface'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import loadingSpinner from "../../assets/loading-spinner.svg";
 
 const Dashboard = () => {
     const [refresh, setRefresh] = useState(false)
@@ -60,8 +61,8 @@ const Dashboard = () => {
 
             {/* Charging Spinner */}
             {isCharging ?
-                <div className='absolute bg-black h-16 w-16 top-1/2 left-1/2 translate-x-20 -translate-y-1/2'>
-
+                <div className='absolute h-16 w-16 top-1/2 left-1/2 translate-x-20 -translate-y-1/2'>
+                    <img src={loadingSpinner} alt="loading..." />
                 </div>
                 :
                 null
