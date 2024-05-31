@@ -147,10 +147,15 @@ const Login = () => {
                     </div>
                 </div>
 
+                {/* Or Text */}
+                <div className=" mt-3">
+                    <p className="text-[#828282] font-bold text-center">Or</p>
+                </div>
+
                 {/* Login Methods Container */}
-                <div className="mt-4 flex justify-evenly">
+                <div className="mt-3 flex justify-evenly">
                     {/* Google */}
-                    <div className="w-12 flex items-center contain-paint rounded-full border-2 border-[#e6e6e6ce]">
+                    <div className="w-full h-7 flex items-center contain-paint border-[0.5px] rounded-md">
                         <GoogleLogin
                             clientId={clientID}
                             onSuccess={onSuccess}
@@ -158,17 +163,18 @@ const Login = () => {
                             cookiePolicy={'single_host_policy'}
                             buttonText={false}
                             icon={false}
-                        > <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" /> </GoogleLogin>
+                            className="flex justify-center w-full "
+                        >
+                            <div className="flex items-center">
+                                <img className="w-4" src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" />
+                                <h1 className="font-bold ml-3 text-xs">Continue with Google</h1>
+                            </div>
+                        </GoogleLogin>
                     </div>
-
-                    {/* GitHub */}
-                    <button className="w-12 rounded-full p-2 border-2 border-[#e6e6e6ce]">
-                        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" />
-                    </button>
                 </div>
 
                 {/* Submit Button */}
-                <div className="mt-4">
+                <div className="mt-6">
                     <button onClick={handleLogin} className="text-xs rounded-md w-full py-2 bg-black">Log in</button>
                 </div>
 
