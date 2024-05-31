@@ -183,7 +183,7 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setM
                         {/* Profile Options Container */}
                         <div id="profile_Options" hidden className="m-2">
                             {/* Email */}
-                            <div className="p-4 flex items-center">
+                            <div className="py-4 flex items-center justify-center overflow-hidden text-sm">
                                 <span>
                                     {user.email}
                                 </span>

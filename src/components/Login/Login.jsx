@@ -2,6 +2,8 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import GoogleLogin from "react-google-login"
+import { gapi } from "gapi-script"
 
 const Login = () => {
     const [users, setUsers] = useState()
@@ -10,6 +12,7 @@ const Login = () => {
         password: ''
     })
 
+    const clientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
     const navigate = useNavigate()
 
     const handleChangeForm = (e) => {
@@ -60,9 +63,50 @@ const Login = () => {
         return data
     }
 
+    const createUserByApi = async (user) => {
+        const response = await fetch('http://localhost:3000/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: user.givenName,
+                email: user.email,
+                password: user.googleId
+            })
+        })
+        const data = await response.json()
+        localStorage.setItem('id', data.id)
+        navigate('/new_user')
+    }
+
+    const onSuccess = (response) => {
+        const respUser = response.profileObj
+        const user = users.filter(user => user.email === respUser.email)
+        if (user.length === 0) {
+            createUserByApi(respUser)
+            navigate('/new_user')
+        } else {
+            localStorage.setItem('id', user[0].id)
+            navigate('/dashboard')
+        }
+    }
+
+    const onFailure = (response) => {
+        console.log(response)
+    }
+
     useEffect(() => {
         localStorage.removeItem('id')
         init()
+
+        const start = () => {
+            gapi.auth2.init({
+                clientId: clientID,
+            })
+        }
+        gapi.load('client:auth2', start)
+
     }, [])
 
     return (
@@ -104,25 +148,27 @@ const Login = () => {
                 </div>
 
                 {/* Login Methods Container */}
-                <div className="mt-6 flex justify-evenly">
+                <div className="mt-4 flex justify-evenly">
                     {/* Google */}
-                    <button className="w-9">
-                        <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" />
-                    </button>
-
-                    {/* Facebook */}
-                    <button className="w-9">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/640px-Facebook_Logo_%282019%29.png" alt="Facebook" />
-                    </button>
+                    <div className="w-12 flex items-center contain-paint rounded-full border-2 border-[#e6e6e6ce]">
+                        <GoogleLogin
+                            clientId={clientID}
+                            onSuccess={onSuccess}
+                            onFailure={onFailure}
+                            cookiePolicy={'single_host_policy'}
+                            buttonText={false}
+                            icon={false}
+                        > <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" /> </GoogleLogin>
+                    </div>
 
                     {/* GitHub */}
-                    <button className="w-9">
+                    <button className="w-12 rounded-full p-2 border-2 border-[#e6e6e6ce]">
                         <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" />
                     </button>
                 </div>
 
                 {/* Submit Button */}
-                <div className="mt-6">
+                <div className="mt-4">
                     <button onClick={handleLogin} className="text-xs rounded-md w-full py-2 bg-black">Log in</button>
                 </div>
 
