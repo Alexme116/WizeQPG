@@ -114,8 +114,8 @@ const ChatDisplay = ({ refresh, setRefresh, messages, chatSelected, flowQuestion
                                     width={"200rem"}
                                     className='invert grayscale opacity-75'
                                 />
-                                <h1 className="text-3xl font-bold text-center text-[#9c9c9c]">¡Bienvenido a WizeQ!</h1>
-                                <p className="text-center text-[#9c9c9c]">Crea un nuevo chat para comenzar</p>
+                                <h1 className="text-3xl font-bold text-center text-[#9c9c9c]">Welcome to WizeQ</h1>
+                                <p className="text-center text-[#9c9c9c] text-lg">Create a new chat to start</p>
                             </div>
                         </div>
 

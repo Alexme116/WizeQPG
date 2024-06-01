@@ -144,7 +144,7 @@ const Signup = () => {
         {/* Main Container */}
         <div className="h-svh text-white flex justify-center items-center">
             {/* Box Container */}
-            <div className="flex flex-col p-5 rounded-xl sm:scale-125 w-80">
+            <div className="flex flex-col p-5 rounded-xl sm:scale-[115%] w-80">
                 {/* Logo Container */}
                 <div className="flex justify-center">
                     {/* Logo */}

@@ -120,12 +120,12 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
 
                 {/* Chat Title */}
                 <h1 className="text-3xl font-bold w-[80%] h-10 text-center overflow-hidden">
-                    {chatSelected === 0 || chats.length === 0  ? 'Bienvenido' : chats.find(chat => chat.id === chatSelected) ? chats.find(chat => chat.id === chatSelected).title : 'Bienvenido'}
+                    {chatSelected === 0 || chats.length === 0  ? 'Welcome' : chats.find(chat => chat.id === chatSelected) ? chats.find(chat => chat.id === chatSelected).title : 'Welcome'}
                 </h1>
 
                 {/* New Chat */}
                 <button onClick={handleNewChat} className='h-12 w-28 rounded-full border-2'>
-                    Nuevo Chat
+                    New Chat
                 </button>
             </div>
 

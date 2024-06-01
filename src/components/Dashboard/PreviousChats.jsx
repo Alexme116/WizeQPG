@@ -54,9 +54,9 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setM
         const confirmDeleteText = document.getElementById('Confirm-Delete-Text')
         const confirmDeleteHidden = document.getElementById('Confirm-Delete-Hidden')
         if (id === 0) {
-            confirmDeleteText.innerText = "Seguro que quieres eliminar tu USUARIO!?"
+            confirmDeleteText.innerText = "Are you sure you want to delete your USER!?"
         } else {
-            confirmDeleteText.innerText = "Seguro que quieres eliminar el CHAT!?"
+            confirmDeleteText.innerText = "Are you sure you want to delete this CHAT!?"
             setDeleteId(id)
         }
         confirmDeleteHidden.hidden = false
@@ -140,7 +140,7 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setM
 
                 {/* Title */}
                 <div className="h-[5%] w-full flex justify-center items-center">
-                    <h1 className="font-bold">CHATS ANTERIORES</h1>
+                    <h1 className="font-bold">Previous Chats</h1>
                 </div>
 
                 {/* Chats */}
@@ -219,11 +219,11 @@ const PreviousChats = ({ refresh, setRefresh, user, chats, setChatSelected, setM
             {/* Confirm Delete */}
             <div hidden id="Confirm-Delete-Hidden" className="absolute h-full w-full bg-[#0000007b] z-10">
                 <div className="absolute flex flex-col justify-center items-center p-3 rounded-md bg-neutral-800 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 ">
-                    <p id="Confirm-Delete-Text">Seguro que quieres eliminar!?</p>
+                    <p id="Confirm-Delete-Text">Sure you want to DELETE!?</p>
 
                     <div className="flex justify-around items-center w-full mt-4">
-                        <button onClick={handleCanceleDelete}>Cancelar</button>
-                        <button onClick={handleConfirmDelete}>Eliminar</button>
+                        <button onClick={handleCanceleDelete}>Cancel</button>
+                        <button onClick={handleConfirmDelete}>Delete</button>
                     </div>
                 </div>
             </div>
