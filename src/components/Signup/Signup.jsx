@@ -243,7 +243,7 @@ const Signup = () => {
 
                 {/* Message */}
                 <div className="mt-5">
-                    <p id="login-error-message" className="text-lg font-bold">Email or password incorrect</p>
+                    <p id="login-error-message" className="font-bold">Email or password incorrect</p>
                 </div>
 
                 {/* Try Again Button */}

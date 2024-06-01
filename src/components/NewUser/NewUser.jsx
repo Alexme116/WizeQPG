@@ -28,7 +28,6 @@ const NewUser = () => {
     const handleSetPassword = async () => {
         const user = await getUserById()
         await changePassword(user)
-        navigate('/dashboard')
     }
 
     const changePassword = async (user) => {
@@ -38,27 +37,32 @@ const NewUser = () => {
             errorMessage.innerText = 'Password cannot be empty'
             document.getElementById('login-error').hidden = false
         } else {
-            if (form.password !== form.rePassword) {
-                errorMessage.innerText = 'Passwords do not match'
+            if (form.password.length < 3) {
+                errorMessage.innerText = 'Password must be at least 3 characters long'
                 document.getElementById('login-error').hidden = false
             } else {
-                const response = await fetch(`http://localhost:3000/users/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: user.email,
-                        password: form.password,
-                        name: user.name
-                    })
-                })
-                const data = await response.json()
-                if (data.error) {
-                    errorMessage.innerText = 'An error occurred, please try again later'
+                if (form.password !== form.rePassword) {
+                    errorMessage.innerText = 'Passwords do not match'
                     document.getElementById('login-error').hidden = false
                 } else {
-                    navigate('/dashboard')
+                    const response = await fetch(`http://localhost:3000/users/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: user.email,
+                            password: form.password,
+                            name: user.name
+                        })
+                    })
+                    const data = await response.json()
+                    if (data.error) {
+                        errorMessage.innerText = 'An error occurred, please try again later'
+                        document.getElementById('login-error').hidden = false
+                    } else {
+                        navigate('/dashboard')
+                    }
                 }
             }
         }
@@ -129,7 +133,7 @@ const NewUser = () => {
 
                 {/* Message */}
                 <div className="mt-5">
-                    <p id="login-error-message" className="text-lg font-bold">Email or password incorrect</p>
+                    <p id="login-error-message" className="font-bold">Email or password incorrect</p>
                 </div>
 
                 {/* Try Again Button */}

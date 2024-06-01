@@ -201,7 +201,7 @@ const Login = () => {
 
                 {/* Message */}
                 <div className="mt-5">
-                    <p className="text-lg font-bold">Email or password incorrect</p>
+                    <p className="font-bold">Email or password incorrect</p>
                 </div>
 
                 {/* Try Again Button */}
