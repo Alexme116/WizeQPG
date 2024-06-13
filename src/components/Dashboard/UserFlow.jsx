@@ -22,7 +22,7 @@ const UserFlow = [
             },
             {
                 "option": "Desarrollo Profesional",
-            }
+            },
         ]
     },
     {
