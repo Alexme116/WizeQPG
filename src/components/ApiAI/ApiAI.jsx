@@ -17,26 +17,25 @@ const getApiAIResponse = async (question) => {
 }
 
 const getContextResponse = async (question) => {
-
     const message = {
         message:question,
     }
-
+    
     try {
         const response = await fetch('http://localhost:3000/chats/context', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(message),
-  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(message),
+
         });
         const data = await response.json();
         console.log(data.response);
         return data;
-      } catch (error) {
+    } catch (error) {
         console.log(error);
-      }
-    };
+    }
+};
 
 export default getApiAIResponse; getContextResponse;

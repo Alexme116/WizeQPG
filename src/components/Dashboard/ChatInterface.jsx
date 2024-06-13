@@ -4,13 +4,14 @@ import hamburgerIcon from '../../assets/hamburger-icon.svg'
 import { useState } from 'react'
 import ChatDisplay from './ChatDisplay'
 import getApiAIResponse from '../ApiAI/ApiAI'
+import getContextResponse from '../ApiAI/ApiAI'
 
 const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, setMessages, setIsCharging }) => {
     const [input, setInput] = useState('')
     const [flowQuestion, setFlowQuestion] = useState([])
     const [flowStep, setFlowStep] = useState(0)
     const [isSecondInputVisible, setIsSecondInputVisible] = useState(false) // state to show or hide the second input
-    const [buttonText, setbuttonText] = useState('Modelo RAG') // state to store the text of the button [Modelo RAG, Gemini]
+    const [buttonText, setbuttonText] = useState('RAG') // state to store the text of the button [Modelo RAG, Gemini]
     const [secondInput, setSecondInput] = useState('') // state to store the value of the second input
     const id = localStorage.getItem('id')
 
@@ -18,10 +19,10 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
     const toggleSecondInput = () => {
         setIsSecondInputVisible(!isSecondInputVisible);
 
-        if (buttonText === 'Modelo RAG') {
+        if (buttonText === 'RAG') {
             setbuttonText('WizeQ');
         } else {
-            setbuttonText('Modelo RAG');
+            setbuttonText('RAG');
         }
     }
     
@@ -30,9 +31,11 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
             return;
         }
         // Logic for handling the second input
-        setSecondInput('');
+        changeTitle()
+        setSecondInput('')
+        setFlowQuestion([])
         await sendMessageFromUser(secondInput);
-        await sendMessageFromAI(secondInput);
+        await sendMessageFromAIWithContext(secondInput);
     }
 
 
@@ -81,15 +84,27 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
         if (chatSelected === 0) {
             return
         } else if (chats.find(chat => chat.id === chatSelected).title === "New Chat") {
-            await fetch(`http://localhost:3000/chats/${chatSelected}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    title: input
+            if (isSecondInputVisible) {
+                await fetch(`http://localhost:3000/chats/${chatSelected}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: secondInput
+                    })
                 })
-            })
+            } else {
+                await fetch(`http://localhost:3000/chats/${chatSelected}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: input
+                    })
+                })
+            }
             setRefresh(!refresh)
         }
     }
@@ -114,6 +129,13 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
         const response = await getApiAIResponse(newMessage)
         setIsCharging(false)
         sendMessage(response, 'AI')
+    }
+
+    const sendMessageFromAIWithContext = async (message) => {
+        const response = await getContextResponse(message)
+        setIsCharging(false)
+        sendMessage(response, 'AI')
+        console.log(response)
     }
 
     const sendMessage = async (message, is_from) => {
@@ -174,15 +196,15 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
             {/* Input Chat Container */}
             <div className={chatSelected === 0 ? "hidden" : "h-[10%] w-full flex justify-between items-center"}>
                 {/* Toggle Second Input Button */}
-                <div className={chatSelected === 0 ? "hidden" : "h-[5%] flex justify-center items-center"}>
-                    <button onClick={toggleSecondInput} className="rounded-full h-16 w-16 flex justify-center items-center border-2 p-4">
+                <div className={chatSelected === 0 ? "hidden" : "h-[5%] flex justify-center items-center mr-10"}>
+                    <button onClick={toggleSecondInput} className="rounded-full h-14 w-14 flex justify-center items-center border-2 p-4">
                         {buttonText}
                     </button>
                 </div>
                 {/* Input Chat */}
                 {!isSecondInputVisible && (
                     <div className={chatSelected === 0 ? "hidden": "h-[5%] w-full flex justify-between items-center"}>
-                        <input onChange={handleChangeInput} onKeyDown={handleEnter} value={input} type="text" className="border-2 h-14 w-[95%] rounded-3xl px-5 outline-none" placeholder="Escribe si ya sabes que preguntar..."/>
+                        <input onChange={handleChangeInput} onKeyDown={handleEnter} value={input} type="text" className="border-2 h-14 w-[93%] rounded-3xl px-5 outline-none" placeholder="Escribe si ya sabes que preguntar..."/>
                         {/*Send Button */}
                         <button onClick={handleSubmit} className="rounded-full h-14 w-14 flex justify-center items-center border-2">
                             <img src={sendIcon} alt="Send Icon" width={"50%"} className='ml-1'/>
@@ -191,15 +213,15 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
                 )}
                 {/* Second Input Chat Container */}
                 {isSecondInputVisible && (
-                    <div className={chatSelected === 0 ? "hidden" : "h-[10%] w-full flex justify-between items-center mt-2"}>
+                    <div className={chatSelected === 0 ? "hidden" : "h-[5%] w-full flex justify-between items-center"}>
                         {/* Second Input Chat */}
-                        <input onChange={(e) => setSecondInput(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { handleSecondSubmit(); } }} value={secondInput} type="text" className="border-2 h-14 w-[95%] rounded-3xl px-5 outline-none" placeholder="Consulta nuestra modelo de Rag.." />
+                        <input onChange={(e) => setSecondInput(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { handleSecondSubmit(); } }} value={secondInput} type="text" className="border-2 h-14 w-full rounded-3xl px-5 outline-none" placeholder="Consulta nuestra modelo de Rag.." />
                         {/* Second Send Button */}
                         <button onClick={handleSecondSubmit} className="rounded-full h-14 w-14 flex justify-center items-center border-2">
                             <img src={sendIcon} alt="Send Icon" width={"50%"} className='ml-1' />
                         </button>
                     </div>
-            )}
+                )}
             </div>
         </div>
     )
