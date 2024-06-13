@@ -76,7 +76,17 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
     }
 
     const sendMessageFromAI = async (message) => {
-        const newMessage = `Sin ningun tipo de formato solamente texto, responde a la siguiente pregunta: ${message}`
+        let newMessage = `Sin ningun tipo de formato solamente texto, responde a la siguiente pregunta: ${message}`
+        if (messages.length > 1) {
+            // obtener todos los mensajes y juntarlos en un solo string
+            let lastMessage = ''
+            messages.forEach(message => {
+                if (message.is_from === 'AI') {
+                    lastMessage += message.message + '| '
+                }
+            })
+            newMessage = `Utiliza el siguiente string como informacion de tus ultimas respuestas las cuales estan separadas por el simbolo "|": "${lastMessage}". Ahora in ningun tipo de formato solamente texto, responde a la siguiente pregunta: ${message}`
+        }
         const response = await getApiAIResponse(newMessage)
         setIsCharging(false)
         sendMessage(response, 'AI')
@@ -106,7 +116,7 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
     }
 
     const prueba = async () => {
-        console.log(flowQuestion)
+        console.log(chats)
     }
 
     return (
@@ -129,7 +139,7 @@ const ChatInterface = ({ refresh, setRefresh, chats, chatSelected, messages, set
                 </button>
             </div>
 
-            {/* Chat Interface */}
+            {/* Chat Display */}
             <div className="h-[80%] w-full bg-[#F9FAFC] rounded-xl border-[1px]">
                 <ChatDisplay messages={messages} chatSelected={chatSelected} flowQuestion={flowQuestion} setFlowQuestion={setFlowQuestion} flowStep={flowStep} setFlowStep={setFlowStep}
                     sendMessageFromUser={sendMessageFromUser} sendMessageFromAI={sendMessageFromAI} refresh={refresh} setRefresh={setRefresh} setIsCharging={setIsCharging}
